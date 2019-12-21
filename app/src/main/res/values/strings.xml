@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Application Multimedia</string>
+    <string name="open">Abrir cajon</string>
+    <string name="close">cerrar cajon</string>
+
+    <string name="init">Animaciones</string>
+    <string name="red_one">Gráficos</string>
+    <string name="red_two">Imagen</string>
+    <string name="red_three">Audio</string>
+    <string name="red_four">Video</string>
+
+    <string name="name_user">Media Cloud</string>
+    <string name="email_user">media.cloud@nextu.com</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
