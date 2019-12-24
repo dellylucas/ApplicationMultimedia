@@ -32,7 +32,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         int leer_exte = ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
         int escribir_exte = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if (leer_exte == PackageManager.PERMISSION_DENIED || escribir_exte == PackageManager.PERMISSION_DENIED)
+        int perm_audio = ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO);
+        if (leer_exte == PackageManager.PERMISSION_DENIED || escribir_exte == PackageManager.PERMISSION_DENIED || perm_audio == PackageManager.PERMISSION_DENIED)
             ActivityCompat.requestPermissions(this, PERMISOS, REQUEST_CODE);
 
 
