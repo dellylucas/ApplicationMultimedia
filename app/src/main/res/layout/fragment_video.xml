@@ -22,9 +22,9 @@
         app:cardElevation="8dp">
 
         <VideoView
+            android:id="@+id/videoview"
             android:layout_width="match_parent"
             android:layout_height="500dp"
-            android:id="@+id/videoview"
             android:src="@drawable/ic_photo_camera" />
     </androidx.cardview.widget.CardView>
 
@@ -58,6 +58,7 @@
             android:textSize="17sp" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/capture_video"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_margin="10dp"
