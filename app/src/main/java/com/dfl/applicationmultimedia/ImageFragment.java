@@ -18,7 +18,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+
+import java.io.File;
+
+import static android.app.Activity.RESULT_OK;
 
 
 /**
@@ -26,8 +31,8 @@ import androidx.fragment.app.Fragment;
  */
 public class ImageFragment extends Fragment {
 
-    private static int REQUEST_GALLERY = 2;
-    private static int REQUEST_OK = -1;
+    private static final int REQUEST_PHOTO = 3;
+    private static final int REQUEST_GALLERY = 2;
     private ImageView photo;
     private TextView txtruta;
 
@@ -39,9 +44,10 @@ public class ImageFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Button gallery = view.findViewById(R.id.btnopen_gallery);
+        Button takePhoto = view.findViewById(R.id.take_photo);
         photo = view.findViewById(R.id.img_photo);
         txtruta = view.findViewById(R.id.txtruta);
         gallery.setOnClickListener(new View.OnClickListener() {
@@ -52,32 +58,55 @@ public class ImageFragment extends Fragment {
 
             }
         });
+        takePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                File imagePhoto = new File(getContext().getFilesDir(), "foto.jpg");
+                Uri uriImage = FileProvider.getUriForFile(view.getContext(), BuildConfig.APPLICATION_ID + ".provider", imagePhoto);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, uriImage);
+                startActivityForResult(intent, REQUEST_PHOTO);
+
+            }
+        });
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_GALLERY && resultCode == REQUEST_OK && data != null) {
-            Uri imagen = data.getData();
-            String[] path = {MediaStore.Images.Media.DATA};
-            Cursor cursor = this.getContext().getContentResolver().query(imagen, path, null, null, null);
-            if (cursor != null) {
-                cursor.moveToFirst();
-                int columna = cursor.getColumnIndex(path[0]);
-                String pathImage = cursor.getString(columna);
-                cursor.close();
-                Bitmap bitImagen = BitmapFactory.decodeFile(pathImage);
-                int height = bitImagen.getHeight();
-                int width = bitImagen.getWidth();
-                float scaleA = ((float) (width / 2)) / width;
-                float scaleB = ((float) (height / 2)) / height;
-                Matrix matrix = new Matrix();
-                matrix.postScale(scaleA, scaleB);
-                Bitmap newImageScale = Bitmap.createBitmap(bitImagen, 0, 0, width, height, matrix, true);
-                photo.setImageBitmap(newImageScale);
-                txtruta.setText("Ruta: " + pathImage);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_GALLERY:
+                    Uri imagen = data.getData();
+                    String[] path = {MediaStore.Images.Media.DATA};
+                    Cursor cursor = this.getContext().getContentResolver().query(imagen, path, null, null, null);
+                    if (cursor != null) {
+                        cursor.moveToFirst();
+                        int columna = cursor.getColumnIndex(path[0]);
+                        String pathImage = cursor.getString(columna);
+                        cursor.close();
+                        setImage(pathImage);
+                    }
+                    break;
+                case REQUEST_PHOTO:
+                    setImage(getContext().getFilesDir().listFiles()[0].getPath());
+                    break;
             }
         }
+    }
+
+    private void setImage(String pathImage) {
+        Bitmap bitImagen = BitmapFactory.decodeFile(pathImage);
+        int height = bitImagen.getHeight();
+        int width = bitImagen.getWidth();
+        float scaleA = ((float) (width / 2)) / width;
+        float scaleB = ((float) (height / 2)) / height;
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleA, scaleB);
+        Bitmap newImageScale = Bitmap.createBitmap(bitImagen, 0, 0, width, height, matrix, true);
+        photo.setImageBitmap(newImageScale);
+        txtruta.setText("Ruta: " + pathImage);
     }
 
     @Override

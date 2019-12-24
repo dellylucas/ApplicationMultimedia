@@ -22,14 +22,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     private static final int REQUEST_CODE = 1;
     private static String[] PERMISOS = {
-            Manifest.permission.READ_EXTERNAL_STORAGE
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         int leer_exte = ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
-        if (leer_exte == PackageManager.PERMISSION_DENIED)
+        int escribir_exte = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (leer_exte == PackageManager.PERMISSION_DENIED || escribir_exte == PackageManager.PERMISSION_DENIED)
             ActivityCompat.requestPermissions(this, PERMISOS, REQUEST_CODE);
 
 

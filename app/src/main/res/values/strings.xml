@@ -12,7 +12,7 @@
     <string name="name_user">Media Cloud</string>
     <string name="email_user">media.cloud@nextu.com</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="ninguna_ruta">Ruta: Ningun archivo seleccionado</string>
+    <string name="rep_sound">Reproducir audio</string>
+    <string name="stop_sound">Detener reproduccion</string>
 </resources>

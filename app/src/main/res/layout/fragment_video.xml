@@ -24,7 +24,7 @@
         <VideoView
             android:layout_width="match_parent"
             android:layout_height="500dp"
-            android:background="@android:color/black"
+            android:id="@+id/videoview"
             android:src="@drawable/ic_photo_camera" />
     </androidx.cardview.widget.CardView>
 
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/card_phoyo"
         android:layout_margin="15dp"
-        android:text="Ruta: Ningun archivo seleccionado"
+        android:text="@string/ninguna_ruta"
         android:textSize="20sp" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -47,6 +47,7 @@
         android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/open_video"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_margin="10dp"
